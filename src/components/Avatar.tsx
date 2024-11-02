@@ -31,5 +31,4 @@ export const Avatar = ({ link, title, id }: Props) => {
 		return <vk.ui.Avatar src={link}/>
 	}
 	return <vk.ui.Avatar initials={title[0]} gradientColor={color}/>;
-				
 };

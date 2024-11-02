@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { useRouteNavigator } from "@vkontakte/vk-mini-apps-router";
-import { Cell, CustomScrollView, List, RichCell, Spinner } from "@vkontakte/vkui";
+import { Cell, CustomScrollView, IconButton, List, RichCell, Spinner } from "@vkontakte/vkui";
+import { Icon28DoorArrowLeftOutline } from "@vkontakte/icons";
 
 import * as api from '../../../api';
 
@@ -71,8 +72,20 @@ export const ChatsList = ({ userId }: Props) => {
 				onClick={()=>{
 				routeNavigator.push(`chat/${chat.id}`)
 				}} before={
-					<Avatar link={chat.avatar} id={chat.id} title={chat.title} />					
+					<Avatar link={chat.avatar} id={chat.id} title={chat.title} />
+					
+					
 				} 
+				// after={
+				// 	<IconButton
+				// 		onClick={() => {
+				// 		routeNavigator.push("persik")
+				// 		}}
+				// 		label='Выйти'
+				// 	>
+				// 		<Icon28DoorArrowLeftOutline />
+				// 	</IconButton>
+				// }
 				>
 				{chat.title}
 				

@@ -6,12 +6,13 @@ import {
   PanelHeaderBack,
   HorizontalScroll,
   TabsItem,
+  Counter,
   Tabs,
   Group,
 } from '@vkontakte/vkui';
 import { UserInfo } from '@vkontakte/vk-bridge';
 import { useParams, useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
-import { Icon28InfoOutline, } from '@vkontakte/icons';
+import { Icon28InfoOutline, Icon28PencilSquare, } from '@vkontakte/icons';
 
 import * as api from '../../api';
 import { Info, Stats } from './components';
@@ -88,6 +89,23 @@ export const ChatUserInfo: FC<Props> = ({ id }) => {
 							}}
 						>
 							Статистика
+						</TabsItem>
+						<TabsItem
+							before={<Icon28PencilSquare />}
+							status={
+								<Counter mode="inherit" size="s">
+								{/* {info?.membersCount ?? ""} */}
+								</Counter>
+							}
+							selected={selected === 'members'}
+							id="tab-members"
+							aria-controls="tab-content-members"
+							onClick={() => {
+								setSelected('members');
+
+							}}
+						>
+							Действия
 						</TabsItem>
 
 						

@@ -13,6 +13,7 @@ interface Props {
 };
 
 export const Info = ({info, isLoading, error, loadData}: Props) => {
+	console.log(isLoading);
 	if(isLoading) {
 		return (
 			<Div>
@@ -42,7 +43,6 @@ export const Info = ({info, isLoading, error, loadData}: Props) => {
 					type="text"
 					defaultValue={info.title}
 					style={{ flex: 1 }}
-					disabled
 				/>
 			</Flex>
 			<Flex direction='column' gap="4xl" margin='auto'>

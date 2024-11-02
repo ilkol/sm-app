@@ -38,7 +38,7 @@ export const Chat: FC<NavIdProps> = ({ id }) => {
 
 	const loadInfo = async() => {
 		try {
-		const fetcheData = await api.Chat.getInfo(chatUid);
+			const fetcheData = await api.Chat.getInfo(chatUid);
 			setInfo(fetcheData);
 		}
 		catch(e) {
@@ -47,7 +47,7 @@ export const Chat: FC<NavIdProps> = ({ id }) => {
 			}
 		}
 		finally {
-		setLoading(false);
+			setLoading(false);
 		}
 	};
 
