@@ -60,7 +60,7 @@ export const Settings = ({ chat }: Props) => {
 		{label: "Скрытие бывших участников из топа", icon: <Icon20HideOutline />, state: data.hideUsers},
 		{label: "Замена имени и фамилии участников на ник", icon: <Icon20MasksOutline />, state: data.nameType},
 		{label: "Оповещение об окончании срока блокировки", icon: <Icon20ClockOutline />, state: data.unPunishNotify},
-		{label: "Снятие роли с участника при выходе", icon: <Icon20UserSlashOutline />, state: data.roleLevelStats},
+		{label: "Изменении роли участника при исключении", icon: <Icon20UserSlashOutline />, state: data.unRoleAfterKick},
 		{label: "Снятие блокировке при добавлении администратором", icon: <Icon20UnlockOutline />, state: data.autounban},
 		{label: "Отображение уровня роли в статистике", icon: <Icon20DocumentStatsOutline />, state: data.roleLevelStats},
 	];
