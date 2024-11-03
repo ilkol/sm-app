@@ -76,16 +76,16 @@ export const ChatsList = ({ userId }: Props) => {
 					
 					
 				} 
-				// after={
-				// 	<IconButton
-				// 		onClick={() => {
-				// 		routeNavigator.push("persik")
-				// 		}}
-				// 		label='Выйти'
-				// 	>
-				// 		<Icon28DoorArrowLeftOutline />
-				// 	</IconButton>
-				// }
+				after={
+					<IconButton
+						onClick={() => {
+						routeNavigator.push("persik")
+						}}
+						label='Выйти'
+					>
+						<Icon28DoorArrowLeftOutline />
+					</IconButton>
+				}
 				>
 				{chat.title}
 				
