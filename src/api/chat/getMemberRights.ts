@@ -9,6 +9,8 @@ export interface ChatUserRights
 	banlist: boolean;
 	roles: boolean;
 	settings: boolean;
+	selfstats: boolean;
+	getstats: boolean;
 }
 
 export const getMemberRights = async (chat: string, user: number): Promise<ChatUserRights> => {

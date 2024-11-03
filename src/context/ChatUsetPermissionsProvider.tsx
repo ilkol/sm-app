@@ -12,7 +12,9 @@ const ChatUserPermissionsContext = React.createContext<api.Chat.ChatUserRights>(
     banlist: false,
     help: false,
     roles: false,
-    settings: false
+    settings: false,
+	selfstats: false,
+	getstats: false,
 });
 
 interface Props {

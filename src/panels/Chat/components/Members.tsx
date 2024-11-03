@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { Checkbox, Counter, CustomScrollView, Div, FormItem, Header, Progress, RichCell, Spinner } from "@vkontakte/vkui";
+import { Cell, Checkbox, Counter, CustomScrollView, Div, FormItem, Header, Progress, RichCell, Spinner } from "@vkontakte/vkui";
 import { useRouteNavigator } from "@vkontakte/vk-mini-apps-router";
 
 import * as api from '../../../api';
 
 import { NetworkError, Avatar } from "../../../components";
+import { useChatUserPermissions } from "../../../context/ChatUsetPermissionsProvider";
+import { Icon20ChevronRightOutline } from "@vkontakte/icons";
 
 interface Props {
 	setFilterVisible: (val: boolean) => void;
@@ -14,6 +16,7 @@ interface Props {
 };
 
 export const Members = ({chat, setFilterVisible, filterVisible}: Props) => {
+	const userRigths = useChatUserPermissions();
 	const routeNavigator = useRouteNavigator();
 	
 	const [loading, setMembersLoading] = useState(true);
@@ -74,25 +77,52 @@ export const Members = ({chat, setFilterVisible, filterVisible}: Props) => {
 			}}
 			>
 			{
-			filterBans.map((user) => (
-				<RichCell
-					key={user.id}
-					subhead={user.nick ?? ""}
-					onClick={()=>{
-						routeNavigator.push(`/chat/${chat}/user/${user.id}`)
-					}}
-					before={
-						<Avatar 
-							link={user.avatar} 
-							title={user.name} 
-							id={"" + user.id}
-						/>
-					} 
-					caption={user.roleName}
-				>
-				{(user.name === "" || user.name.indexOf("DELETED") !== -1) ? "Неизвестный пользователь" : user.name}
-				</RichCell>
-			))}
+			filterBans.map((user) => {
+				if((user.id === userRigths.user_id && userRigths.selfstats) || (user.id !== userRigths.user_id && userRigths.getstats)) {
+					return (
+							<RichCell
+								key={user.id}
+								subhead={user.nick ?? ""}
+								onClick={()=>{
+									routeNavigator.push(`/chat/${chat}/user/${user.id}`)
+								}}
+								after={
+									<Cell>
+
+										<Icon20ChevronRightOutline />
+									</Cell>
+								}
+								before={
+									<Avatar 
+										link={user.avatar} 
+										title={user.name} 
+										id={"" + user.id}
+									/>
+								} 
+								caption={user.roleName}
+							>
+							{(user.name === "" || user.name.indexOf("DELETED") !== -1) ? "Неизвестный пользователь" : user.name}
+							</RichCell>
+					)
+				} else {
+					return (
+						<RichCell
+							key={user.id}
+							subhead={user.nick ?? ""}
+							before={
+								<Avatar 
+									link={user.avatar} 
+									title={user.name} 
+									id={"" + user.id}
+								/>
+							} 
+							caption={user.roleName}
+						>
+						{(user.name === "" || user.name.indexOf("DELETED") !== -1) ? "Неизвестный пользователь" : user.name}
+						</RichCell>
+						)
+				}
+			})}
 			</CustomScrollView>
         </Div>
 	);
