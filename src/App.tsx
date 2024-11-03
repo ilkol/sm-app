@@ -25,8 +25,8 @@ export const App = () => {
 		<SplitCol animate>
 			<View activePanel={activePanel}>
 				<Home id="home" fetchedUser={fetchedUser} />
-				<Chat id="chat" fetchedUser={fetchedUser} ></Chat>
-				<ChatUserInfo id="chatUser"></ChatUserInfo>
+        <Chat id="chat" fetchedUser={fetchedUser} ></Chat>
+        <ChatUserInfo id="chatUser"></ChatUserInfo>
 			</View>
 		</SplitCol>
 	</SplitLayout>

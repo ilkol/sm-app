@@ -6,35 +6,10 @@ import * as api from '../../../api';
 import { NetworkError, Avatar } from "../../../components";
 
 interface Props {
-	info: api.Chat.ChatInfo|null;
-	isLoading: boolean;
-	error: Error | null;
-	loadData: () => void;
+	info: api.Chat.ChatInfo;
 };
 
-export const Info = ({info, isLoading, error, loadData}: Props) => {
-	console.log(isLoading);
-	if(isLoading) {
-		return (
-			<Div>
-				<Flex direction='row' gap="4xl" margin='auto'>
-					<Avatar />
-					<Input
-						type="text"
-						defaultValue={""}
-						style={{ flex: 1 }}
-					/>
-				</Flex>
-				<Flex direction='column' gap="4xl" margin='auto'>
-					<Spinner />
-				</Flex>
-			</Div>
-		);
-	}
-	if(error || !info) {
-	  return <NetworkError action={loadData} error={error?.message}/>;
-	}
-
+export const Info = ({info}: Props) => {
 	return (
 		<Div>
 			<Flex direction='row' gap="4xl" margin='auto'>
