@@ -1,16 +1,32 @@
 import { FC, useEffect, useState } from 'react';
 
-import { Counter, Div, Group, HorizontalScroll, NavIdProps, Panel, PanelHeader, PanelHeaderBack, Tabs, TabsItem } from '@vkontakte/vkui';
+import { Counter, Div, Group, HorizontalScroll, NavIdProps, Panel, PanelHeader, PanelHeaderBack, PanelSpinner, Tabs, TabsItem } from '@vkontakte/vkui';
 import { useParams, useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
 import { Icon28BlockOutline, Icon28InfoOutline, Icon28SettingsOutline, Icon28UsersOutline, Icon28UserStarBadgeOutline } from '@vkontakte/icons';
 
 import * as api from '../../api';
 import * as ChatComponents from './components';
+import { UserInfo } from '@vkontakte/vk-bridge';
+import { NetworkError } from '../../components';
 
-export const Chat: FC<NavIdProps> = ({ id }) => {
+export interface ChatProps extends NavIdProps {
+	fetchedUser?: UserInfo;
+  }
+
+export const Chat: FC<ChatProps> = ({ id, fetchedUser }) => {
+	const { id: userId } = { ...fetchedUser };
+	if(!userId) {
+		return null;
+	}
+
 	const routeNavigator = useRouteNavigator();
 	const params = useParams<'chat'>();
 	const [selected, setSelected] = useState('info');
+
+	const [loadingRights, setRightsLoading] = useState(true);
+	const [rights, setRights] = useState<api.Chat.ChatUserRights | null>(null);
+	const [rightsError, setRightsError] = useState<Error | null>(null);
+	
 
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<Error | null>(null);
@@ -27,7 +43,9 @@ export const Chat: FC<NavIdProps> = ({ id }) => {
 			routeNavigator.replace("/");
 		}
 		else {
+			loadRights();
 			loadInfo();
+			
 		}
 	
   	}, [chatUid, routeNavigator]);
@@ -50,8 +68,45 @@ export const Chat: FC<NavIdProps> = ({ id }) => {
 			setLoading(false);
 		}
 	};
+	const loadRights = async() => {
+		try {
+			const fetcheData = await api.Chat.getMemberRights(chatUid, userId);
+			setRights(fetcheData);
+		}
+		catch(e) {
+			if(e instanceof Error) {
+				setRightsError(new Error(e.message));
+			}
+		}
+		finally {
+			setRightsLoading(false);
+		}
+	};
 
-
+	if(loadingRights) {
+		return (
+			<Panel id={id}>
+				<PanelHeader before={<PanelHeaderBack onClick={() => routeNavigator.replace("/")} />}>
+				Управление чатом
+				</PanelHeader>
+				<Group>
+					<PanelSpinner />
+				</Group>
+			</Panel>
+		);
+	}
+	if(rightsError || !rights) {
+		return (
+			<Panel id={id}>
+				<PanelHeader before={<PanelHeaderBack onClick={() => routeNavigator.replace("/")} />}>
+				Управление чатом
+				</PanelHeader>
+				<Group>
+					<NetworkError action={loadRights} error={rightsError?.message}/>;
+				</Group>
+			</Panel>
+		);
+	}
 
   	return (
     <Panel id={id}>
@@ -95,49 +150,55 @@ export const Chat: FC<NavIdProps> = ({ id }) => {
             >
                 Участники
             </TabsItem>
-			<TabsItem
-                before={<Icon28UserStarBadgeOutline />}
-                selected={selected === 'roles'}
-                id="tab-roles"
-                aria-controls="tab-content-roles"
-                onClick={() => {
-                    setSelected('roles');
+			{rights.roles && (
+				<TabsItem
+					before={<Icon28UserStarBadgeOutline />}
+					selected={selected === 'roles'}
+					id="tab-roles"
+					aria-controls="tab-content-roles"
+					onClick={() => {
+						setSelected('roles');
 
-                }}
-            >
-                Роли
-            </TabsItem>
-            <TabsItem
-                before={<Icon28SettingsOutline />}
-                selected={selected === 'settings'}
-                id="tab-settings"
-                aria-controls="tab-content-settings"
-                onClick={() => {
-                    setSelected('settings');
+					}}
+				>
+					Роли
+				</TabsItem>
+			)}
+			{rights.settings && (
+				<TabsItem
+					before={<Icon28SettingsOutline />}
+					selected={selected === 'settings'}
+					id="tab-settings"
+					aria-controls="tab-content-settings"
+					onClick={() => {
+						setSelected('settings');
 
-                }}
-            >
-                Настройки
-            </TabsItem>
-            <TabsItem
-                before={<Icon28BlockOutline />}
-                status={
-                    <Counter mode="prominent" size="s">
-						{info?.bannedUsersCount ?? "0"}
-                    </Counter>
-                }
-
-                selected={selected === 'bans'}
-                id="tab-bans"
-                aria-controls="tab-content-bans"
-                onClick={() => {
-                    setSelected('bans');
-
-                }}
-            >
-                Блокировки
-            </TabsItem>
+					}}
+				>
+					Настройки
+				</TabsItem>
+			)}
             
+			{rights.banlist && (
+				<TabsItem
+					before={<Icon28BlockOutline />}
+					status={
+						<Counter mode="prominent" size="s">
+							{info?.bannedUsersCount ?? "0"}
+						</Counter>
+					}
+
+					selected={selected === 'bans'}
+					id="tab-bans"
+					aria-controls="tab-content-bans"
+					onClick={() => {
+						setSelected('bans');
+
+					}}
+				>
+					Блокировки
+				</TabsItem>
+            )}
         </HorizontalScroll>
         </Tabs>
       
@@ -155,21 +216,21 @@ export const Chat: FC<NavIdProps> = ({ id }) => {
 				/>
 			</Div>
         )}
-		{selected === 'roles' && (
+		{rights.roles && selected === 'roles' && (
 			<Div id="tab-content-roles" aria-labelledby="tab-roles" role="tabpanel">
 				<ChatComponents.Roles
 					chat={chatUid}
 				/>
 			</Div>
         )}
-        {selected === 'settings' && (
+        {rights.settings && selected === 'settings' && (
 			<Div id="tab-content-settings" aria-labelledby="tab-settings" role="tabpanel">
 				<ChatComponents.Settings
 					chat={chatUid}
 				/>
 			</Div>
         )}
-        {selected === 'bans' && (
+        {rights.banlist && selected === 'bans' && (
 			<Div id="tab-content-bans" aria-labelledby="tab-bans" role="tabpanel">
 				<ChatComponents.BannedUsers
 					chat={chatUid}
