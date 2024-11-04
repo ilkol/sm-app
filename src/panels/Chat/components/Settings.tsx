@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Alert, Cell, CustomScrollView, Div, Header, HorizontalScroll, SelectionControl, Spinner, Switch, Tabs, TabsItem } from "@vkontakte/vkui";
+import { Alert, Cell, CustomScrollView, Div, Flex, FormItem, Header, HorizontalScroll, SegmentedControl, SelectionControl, Spinner, Switch, Tabs, TabsItem } from "@vkontakte/vkui";
 import { Icon20AdvertisingOutline, Icon20CancelCircleOutline, Icon20ClockOutline, Icon20CommunityName, Icon20DocumentStatsOutline, Icon20DoorEnterArrowRightOutline, Icon20HideOutline, Icon20MasksOutline, Icon20StatisticsOutline, Icon20UnlockOutline, Icon20UserSlashOutline } from "@vkontakte/icons";
 
 import * as api from '../../../api';
@@ -159,6 +159,35 @@ export const Settings = ({ chat }: Props) => {
 						</SelectionControl>
 					))
 				}
+				<FormItem
+				>
+					<Flex justify="space-between">
+
+					<Cell before={<vk.icons.Icon20MessageCrossOutline />}>
+							Тип мута
+					</Cell>
+					<Div style={{width: '50%'}}>
+
+					<SegmentedControl
+
+						options={[
+							{
+							'label': 'Старый (удаление)',
+							'value': '0',
+							'aria-label': 'Старый',
+							},
+							{
+							'label': 'Новый (запрет)',
+							'value': '1',
+							'aria-label': 'Новый',
+							},
+						]}
+						value={data.muteType + ''}
+						onChange={() => updateSetting('muteType', !data.muteType)}
+					/>
+					</Div>
+					</Flex>
+				</FormItem>
 			</Div>
 		)}
 		{selected === "chart" && (

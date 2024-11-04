@@ -22,7 +22,8 @@ export type ChatSettingsField =
 	'si_files' |
 	'si_audio' |
 	'si_reposts' |
-	'si_mats'
+	'si_mats' |
+	'muteType'
 ;
 
 export const setSetting = async (chat: string, user: number, setting: ChatSettingsField, value: boolean): Promise<true|APIError> => {

@@ -12,6 +12,7 @@ export interface ChatSettings
 	unRoleAfterKick: boolean;
 	autounban: boolean;
 	roleLevelStats: boolean;
+	muteType: boolean;
 
 	si_messages: boolean;
 	si_smilies: boolean;
