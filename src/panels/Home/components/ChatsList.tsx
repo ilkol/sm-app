@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useRouteNavigator } from "@vkontakte/vk-mini-apps-router";
-import { Cell, CustomScrollView, IconButton, List, RichCell, Spinner } from "@vkontakte/vkui";
+import { Alert, Cell, CustomScrollView, IconButton, List, RichCell, Spinner } from "@vkontakte/vkui";
 import { Icon28DoorArrowLeftOutline } from "@vkontakte/icons";
 
 import * as api from '../../../api';
@@ -32,6 +32,28 @@ export const ChatsList = ({ userId }: Props) => {
 		finally {
 		  setLoading(false);
 		}
+	};
+  
+	const confirmLeave = () => {
+		routeNavigator.showPopout(
+			<Alert 
+				actions={[
+					{
+						title: "Отмена",
+						mode: 'cancel'
+					},
+					{
+						title: 'Выйти',
+						mode: 'destructive',
+					}
+				]}
+				actionsLayout="horizontal"
+        		dismissButtonMode="inside"
+				onClose={() => routeNavigator.hidePopout()}
+				header="Выйти из чата"
+				text="Вы уверены, что хотите выйти из чата без возможности возвращения?"
+			/>
+		);
 	};
 
 	useEffect(() => {
@@ -78,8 +100,9 @@ export const ChatsList = ({ userId }: Props) => {
 				} 
 				after={
 					<IconButton
-						onClick={() => {
-						routeNavigator.push("persik")
+						onClick={(e) => {
+							e.stopPropagation();
+							confirmLeave();
 						}}
 						label='Выйти'
 					>
