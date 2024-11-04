@@ -5,6 +5,7 @@ export { getMemberStats } from './getMemberStats';
 export { getRoles } from './getRoles';
 export { getSettings } from './getSettings';
 export { getMemberRights } from './getMemberRights';
+export { setSetting } from './setSetting';
 
 export type { BannedUser } from './getBannedUsers';
 export type { ChatInfo } from './getInfo';
@@ -13,3 +14,4 @@ export type { ChatUserStatistics } from './getMemberStats';
 export type { Role } from './getRoles';
 export type { ChatSettings } from './getSettings';
 export type { ChatUserRights } from './getMemberRights';
+export type { ChatSettingsField } from './setSetting';
