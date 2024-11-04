@@ -12,6 +12,17 @@ export interface ChatSettings
 	unRoleAfterKick: boolean;
 	autounban: boolean;
 	roleLevelStats: boolean;
+
+	si_messages: boolean;
+	si_smilies: boolean;
+	si_stickers: boolean;
+	si_reply: boolean;
+	si_photo: boolean;
+	si_video: boolean;
+	si_files: boolean;
+	si_audio: boolean;
+	si_reposts: boolean;
+	si_mats: boolean;
 }
 
 export const getSettings = async (id: string): Promise<ChatSettings> => {
