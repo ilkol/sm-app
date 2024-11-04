@@ -33,8 +33,6 @@ export const Info = ({info, isLoading, error, loadData}: Props) => {
 	  return <NetworkError action={loadData} error={error?.message}/>;
 	}
 
-	console.log(info);
-
 	return (
 		<Div>
 			<RichCell
