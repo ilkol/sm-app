@@ -16,11 +16,16 @@ type Props = {
 
 export const ChatTabs = ({ chatUid, info }: Props) => {
     const rights = useChatUserPermissions();
-    const [selected, setSelected] = useState('info');
+    const [selected, setSelected] = useState(localStorage.getItem("ChatTabs") || "info");
 
     const [showHided, setShowVisible] = useState(true);
 	const [showPermoment, setShowPermoment] = useState(true);
 
+
+	const changeTab = (tab: string) => {
+		setSelected(tab);
+		localStorage.setItem("ChatTabs", tab);
+	}
 
 	return (
         <Group>
@@ -38,7 +43,7 @@ export const ChatTabs = ({ chatUid, info }: Props) => {
                 id="tab-info"
                 aria-controls="tab-content-info"
                 onClick={() => {
-                    setSelected('info');
+                    changeTab('info');
                 }}
             >
                 Основная информация
@@ -54,7 +59,7 @@ export const ChatTabs = ({ chatUid, info }: Props) => {
                 id="tab-members"
                 aria-controls="tab-content-members"
                 onClick={() => {
-                    setSelected('members');
+                    changeTab('members');
 
                 }}
             >
@@ -67,7 +72,7 @@ export const ChatTabs = ({ chatUid, info }: Props) => {
 					id="tab-roles"
 					aria-controls="tab-content-roles"
 					onClick={() => {
-						setSelected('roles');
+						changeTab('roles');
 
 					}}
 				>
@@ -81,7 +86,7 @@ export const ChatTabs = ({ chatUid, info }: Props) => {
 					id="tab-settings"
 					aria-controls="tab-content-settings"
 					onClick={() => {
-						setSelected('settings');
+						changeTab('settings');
 
 					}}
 				>
@@ -102,7 +107,7 @@ export const ChatTabs = ({ chatUid, info }: Props) => {
 					id="tab-bans"
 					aria-controls="tab-content-bans"
 					onClick={() => {
-						setSelected('bans');
+						changeTab('bans');
 
 					}}
 				>

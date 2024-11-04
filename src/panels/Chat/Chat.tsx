@@ -90,7 +90,10 @@ export const Chat: FC<ChatProps> = ({ id, fetchedUser }) => {
 
   	return (
     <Panel id={id}>
-      	<PanelHeader before={<PanelHeaderBack onClick={() => routeNavigator.replace("/")} />}>
+      	<PanelHeader before={<PanelHeaderBack onClick={() => {
+			routeNavigator.replace("/");
+			localStorage.removeItem("ChatTabs");
+		}} />}>
         	Управление чатом
       	</PanelHeader>
 	  	<ChatUsetPermissionsProvider chatid={chatUid} userid={userId}>
