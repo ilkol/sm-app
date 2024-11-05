@@ -6,16 +6,16 @@ import {
   PanelHeaderBack,
   HorizontalScroll,
   TabsItem,
-  Counter,
   Tabs,
   Group,
+  Div,
 } from '@vkontakte/vkui';
 import { UserInfo } from '@vkontakte/vk-bridge';
 import { useParams, useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
 import { Icon28InfoOutline, Icon28PencilSquare, } from '@vkontakte/icons';
 
 import * as api from '../../api';
-import { Info, Stats } from './components';
+import { Info, Stats, Actions } from './components';
 
 export interface Props extends NavIdProps {
   fetchedUser?: UserInfo;
@@ -92,16 +92,11 @@ export const ChatUserInfo: FC<Props> = ({ id }) => {
 						</TabsItem>
 						<TabsItem
 							before={<Icon28PencilSquare />}
-							status={
-								<Counter mode="inherit" size="s">
-								{/* {info?.membersCount ?? ""} */}
-								</Counter>
-							}
-							selected={selected === 'members'}
-							id="tab-members"
-							aria-controls="tab-content-members"
+							selected={selected === 'actions'}
+							id="tab-actions"
+							aria-controls="tab-content-actions"
 							onClick={() => {
-								setSelected('members');
+								setSelected('actions');
 
 							}}
 						>
@@ -113,6 +108,11 @@ export const ChatUserInfo: FC<Props> = ({ id }) => {
 				</Tabs>
 				{selected === 'info' && (
 					<Stats info={stats} loadData={() => loadStats(chatUid, +userId)} isLoading={loading} error={error}/>
+				)}
+				{selected === 'actions' && (
+					<Div id="tab-content-actions" aria-labelledby="tab-info" role="tabpanel">
+						<Actions info={stats} loadData={() => loadStats(chatUid, +userId)} isLoading={loading} error={error}/>
+					</Div>
 				)}
 			</Group>
 		</Panel>
