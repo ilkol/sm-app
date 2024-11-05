@@ -34,7 +34,7 @@ export const ChatsList = ({ userId }: Props) => {
 		}
 	};
   
-	const confirmLeave = () => {
+	const confirmLeave = (chatId: string) => {
 		routeNavigator.showPopout(
 			<Alert 
 				actions={[
@@ -45,6 +45,18 @@ export const ChatsList = ({ userId }: Props) => {
 					{
 						title: 'Выйти',
 						mode: 'destructive',
+						action: async () => {
+							const result = await api.Chat.leave(chatId, userId)
+							if(result === true) {
+								setChatsList((prevChats) => {
+									if (!prevChats) return null;
+									return prevChats.filter((chat) => chat.id !== chatId);
+								});
+							}
+							else {
+								errorPopup();
+							}
+						}
 					}
 				]}
 				actionsLayout="horizontal"
@@ -52,6 +64,24 @@ export const ChatsList = ({ userId }: Props) => {
 				onClose={() => routeNavigator.hidePopout()}
 				header="Выйти из чата"
 				text="Вы уверены, что хотите выйти из чата без возможности возвращения?"
+			/>
+		);
+	};
+
+	const errorPopup = () => {
+		routeNavigator.showPopout(
+			<Alert 
+				actions={[
+					{
+						title: "Ок",
+						mode: 'default'
+					}
+				]}
+				actionsLayout="horizontal"
+        		dismissButtonMode="inside"
+				onClose={() => routeNavigator.hidePopout()}
+				header="Ошибка"
+				text="Не удалось исключить вас из чата."
 			/>
 		);
 	};
@@ -102,7 +132,7 @@ export const ChatsList = ({ userId }: Props) => {
 					<IconButton
 						onClick={(e) => {
 							e.stopPropagation();
-							confirmLeave();
+							confirmLeave(chat.id);
 						}}
 						label='Выйти'
 					>
