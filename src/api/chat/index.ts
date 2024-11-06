@@ -7,6 +7,7 @@ export { getSettings } from './getSettings';
 export { getMemberRights } from './getMemberRights';
 export { setSetting } from './setSetting';
 export { leave } from './leave';
+export { kick } from './kick';
 
 export type { BannedUser } from './getBannedUsers';
 export type { ChatInfo } from './getInfo';

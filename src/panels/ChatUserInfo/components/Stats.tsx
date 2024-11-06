@@ -50,5 +50,5 @@ export const Stats = ({info, isLoading, error, loadData}: Props) => {
 
 function formatData(messages: number, label: string, count: number, icon:  ReactNode)
 {
-	return <MiniInfoCell after={`${count} (${messages ? (count / messages).toFixed(2) : 0}%)`} before={icon} >{label}</MiniInfoCell>
+	return <MiniInfoCell key={label} after={`${count} (${messages ? (count / messages).toFixed(2) : 0}%)`} before={icon} >{label}</MiniInfoCell>
 }
