@@ -20,13 +20,13 @@ interface Props
 export const KickUserModal = ({sizeX, platform, routeNavigator, punisher}: Props) => {
 	
 	if(!punisher) {
-		return null;
+		return;
 	}
 	const {id: userId } = punisher;
 	const chat = useParams<'chat'>()?.chat;
 	const user = useParams<'user'>()?.user;
 	if(!chat || !user) {
-		return null;
+		return;
 	}
 	const [reason, setReason] = useState<string>('');
 		
@@ -60,9 +60,12 @@ export const KickUserModal = ({sizeX, platform, routeNavigator, punisher}: Props
 				<ButtonGroup align='center' stretched>
 				<Button appearance='negative' size='l' onClick={async ()=>{
 					const result = await api.Chat.kick(chat, +user, userId, reason);
+					console.log(result);
 					if(result === true) {
+						setTimeout(() => {
+							routeNavigator.replace(`/chat/${chat}`);
+						}, 50);
 						routeNavigator.hideModal();
-						routeNavigator.replace(`/chat/${chat}`);
 					}
 					else {
 						let text = "Не удалось исключить пользователя из чата.";
