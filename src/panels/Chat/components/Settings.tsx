@@ -8,6 +8,7 @@ import * as vk from '../../../vk';
 
 import { NetworkError } from "../../../components";
 import { useChatUserPermissions } from "../../../context/ChatUsetPermissionsProvider";
+import { useRouteNavigator } from "@vkontakte/vk-mini-apps-router";
 
 type Props = {
 	chat: string;
@@ -21,7 +22,6 @@ export const Settings = ({ chat }: Props) => {
 	const [loadig, setLoading] = useState(true);
 	const [error, setError] = useState<Error | null>(null);
 	const [data, setSettings] = useState<api.Chat.ChatSettings|null>(null);
-	const [alert, setAlert] = useState<string | null>(null);
 
 	const [selected, setSelected] = useState(localStorage.getItem("ChatSettingsTabs") || "main");
 	const changeTab = (tab: string) => {
@@ -47,6 +47,11 @@ export const Settings = ({ chat }: Props) => {
 			setLoading(false);
 		}
 	};
+	const router = useRouteNavigator();
+
+	const showAlert = (text: string) => {
+		router.showPopout(<Alert onClose={() => router.hidePopout()}>{text}</Alert>)
+	}
 
 	const updateSetting = async (setting: api.Chat.ChatSettingsField, value: boolean) => {
 		try {
@@ -59,13 +64,14 @@ export const Settings = ({ chat }: Props) => {
 					return prevData;
 				});				
 			} else {
-				setAlert("Не удалось обновить настройку. Пожалуйста, попробуйте еще раз.");
+				console.error(result);
+				showAlert("Не удалось обновить настройку. Пожалуйста, попробуйте еще раз.");
 			}
 		} catch (error) {
-			setAlert("Произошла ошибка. Попробуйте еще раз.");
+			showAlert("Произошла ошибка. Попробуйте еще раз.");
 		}
-		await api.Chat.setSetting(chat, userRights.user_id, setting, value);
 	}
+
 
 	if(loadig) {
 		return (
@@ -110,7 +116,6 @@ export const Settings = ({ chat }: Props) => {
 
 	return (
 		<>
-		{alert && <Alert onClose={() => setAlert(null)}>{alert}</Alert>}
 		<Tabs
         mode="secondary"
         layoutFillMode="auto"
