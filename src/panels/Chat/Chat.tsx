@@ -56,6 +56,7 @@ export const Chat: FC<ChatProps> = ({ id, fetchedUser }) => {
 			if(e instanceof Error) {
 				setError(new Error(e.message));
 			}
+			console.error(e);
 		}
 		finally {
 			setLoading(false);
