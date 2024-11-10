@@ -64,10 +64,11 @@ export const KickUserModal = ({sizeX, platform, routeNavigator, punisher}: Props
 					if(result === true) {
 						setTimeout(() => {
 							routeNavigator.replace(`/chat/${chat}`);
-						}, 50);
+						}, 100);
 						routeNavigator.hideModal();
 					}
 					else {
+						console.error(result);
 						let text = "Не удалось исключить пользователя из чата.";
 						if(result.error.code === 4) {
 							text = "Недостаточно прав, чтобы исключить данного пользователя.";
