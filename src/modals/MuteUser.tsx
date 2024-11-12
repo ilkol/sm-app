@@ -3,15 +3,18 @@ import { RouteNavigator } from '@vkontakte/vk-mini-apps-router';
 import { AdaptiveSizeType } from '@vkontakte/vkui/dist/hooks/useAdaptivityConditionalRender/types';
 import { BlockModal } from './BlockModal';
 import { PlatformType } from '@vkontakte/vkui';
+import { UserInfo } from '@vkontakte/vk-bridge';
 
 interface Props
 {
 	sizeX: AdaptiveSizeType,
 	platform: PlatformType,
 	routeNavigator: RouteNavigator
+
+	punisher?: UserInfo
 }
 
-export const MuteUserModal = ({sizeX, platform, routeNavigator}: Props) => {
+export const MuteUserModal = ({sizeX, platform, routeNavigator, punisher}: Props) => {
 	
 	return (
 		<BlockModal 
@@ -20,6 +23,10 @@ export const MuteUserModal = ({sizeX, platform, routeNavigator}: Props) => {
 			routeNavigator={routeNavigator}
 			title='Запретить писать пользователю'
 			buttonLabel='Запретить'
+			punisher={punisher}
+			onSubmit={(chat, punisher, user, time, reason) => {
+				console.log(chat, punisher, user, time, reason);
+			}}
 		/>
 	);
 	// const [date, setDate] = useState(() => new Date());

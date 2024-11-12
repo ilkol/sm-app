@@ -39,18 +39,14 @@ export const App = () => {
 			onClose={() => routeNavigator.hideModal()}>
 			<ModalPage
 				id='kickUser_modal'
-				// settlingHeight={100}
-				// height={isDesktop ? 225 : '35%'}
-				// hideCloseButton={platform === 'ios'}
-
 			>
 				<KickUserModal sizeX={sizeX} platform={platform} routeNavigator={routeNavigator} punisher={fetchedUser}/>
 			</ModalPage>
 			<ModalPage id='muteUser_modal' dynamicContentHeight >
-				<MuteUserModal sizeX={sizeX} platform={platform} routeNavigator={routeNavigator}/>
+				<MuteUserModal sizeX={sizeX} platform={platform} routeNavigator={routeNavigator} punisher={fetchedUser}/>
 			</ModalPage>
 			<ModalPage id='banUser_modal' dynamicContentHeight >
-				<BanUserModal sizeX={sizeX} platform={platform} routeNavigator={routeNavigator}/>
+				<BanUserModal sizeX={sizeX} platform={platform} routeNavigator={routeNavigator} punisher={fetchedUser}/>
 			</ModalPage>
 		</ModalRoot>
 	);
