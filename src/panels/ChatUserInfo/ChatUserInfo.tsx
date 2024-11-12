@@ -111,7 +111,7 @@ export const ChatUserInfo: FC<Props> = ({ id }) => {
 				)}
 				{selected === 'actions' && (
 					<Div id="tab-content-actions" aria-labelledby="tab-info" role="tabpanel">
-						<Actions info={stats} loadData={() => loadStats(chatUid, +userId)} isLoading={loading} error={error}/>
+						<Actions info={stats} loadInfo={() => loadStats(chatUid, +userId)} isLoadingInfo={loading} errorInfo={error}/>
 					</Div>
 				)}
 			</Group>
