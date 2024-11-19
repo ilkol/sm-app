@@ -89,7 +89,6 @@ export const KickUserModal = ({sizeX, platform, routeNavigator, punisher}: Props
 							/>
 						);
 					}
-					console.log(result);
 				}}>
 					Исключить
 				</Button>
