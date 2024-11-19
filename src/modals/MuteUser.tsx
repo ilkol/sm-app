@@ -2,8 +2,10 @@
 import { RouteNavigator } from '@vkontakte/vk-mini-apps-router';
 import { AdaptiveSizeType } from '@vkontakte/vkui/dist/hooks/useAdaptivityConditionalRender/types';
 import { BlockModal } from './BlockModal';
-import { PlatformType } from '@vkontakte/vkui';
+import { Alert, PlatformType } from '@vkontakte/vkui';
 import { UserInfo } from '@vkontakte/vk-bridge';
+
+import * as api from '../api';
 
 interface Props
 {
@@ -24,8 +26,35 @@ export const MuteUserModal = ({sizeX, platform, routeNavigator, punisher}: Props
 			title='Запретить писать пользователю'
 			buttonLabel='Запретить'
 			punisher={punisher}
-			onSubmit={(chat, punisher, user, time, reason) => {
-				console.log(chat, punisher, user, time, reason);
+			onSubmit={async (chat, punisher, user, time, reason) => {
+				const result = await api.Chat.mute(chat, +user, punisher, time, reason);
+				
+				console.log(result);
+				if(result === true) {
+					routeNavigator.hideModal();
+				}
+				else {
+					console.error(result);
+					let text = "Не удалось запретить пользователю писать в чате.";
+					if(result.error.code === 4) {
+						text = "Недостаточно прав, чтобы наказать данного пользователя.";
+					}
+					routeNavigator.showPopout(
+						<Alert
+							actions={[
+								{
+									title: "Ок",
+									mode: 'default'
+								}
+							]}
+							actionsLayout="horizontal"
+							dismissButtonMode="inside"
+							onClose={() => routeNavigator.hidePopout()}
+							header="Произошла ошибка"
+							text={text}
+						/>
+					);
+				}
 			}}
 		/>
 	);

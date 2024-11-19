@@ -43,7 +43,10 @@ export const BlockModal = ({sizeX, platform, routeNavigator, title, buttonLabel,
 
 	const clickSubmi = () => {
 		let time = 0;
-		if(!permoment) {
+		if(permoment) {
+			onSubmit(chat, punisher.id, +user, 0, reason);
+			return;
+		} else {
 			if(selected === 'date') {
 				time = Math.floor((date.getTime() - (new Date()).getTime())/1000); 
 			}
@@ -71,15 +74,16 @@ export const BlockModal = ({sizeX, platform, routeNavigator, title, buttonLabel,
 					setTimeError(false);
 				}
 			}
+			if(time <= 0) {
+				setDateError(true);
+			} else {
+				setDateError(false);
+				if(!dateError) {
+					onSubmit(chat, punisher.id, +user, time, reason);
+				}
+			}
 		}
-		if(time <= 0) {
-			setDateError(true);
-		} else {
-			setDateError(false);
-		}
-		if(!dateError) {
-			onSubmit(chat, punisher.id, +user, time, reason);
-		}
+		
 	}
 
 	return (
