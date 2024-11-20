@@ -3,10 +3,10 @@ import { makeRequest } from "../axios";
 export interface ChatSettings
 {
 	uid: string;
-	toggleFeed: boolean;
-	kickMenu: boolean;
-	leaveMenu: boolean;
-	hideUsers: boolean;
+	togglefeed: boolean;
+	kickmenu: boolean;
+	leavemenu: boolean;
+	hideusers: boolean;
 	nameType: boolean;
 	unPunishNotify: boolean;
 	unRoleAfterKick: boolean;

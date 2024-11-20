@@ -88,12 +88,13 @@ export const Settings = ({ chat }: Props) => {
 	if(error || !data) {
 	  return <NetworkError action={() => load()}/>;
 	}
+	console.log(data);
 
 	const mainSettings: {label: string, icon: React.ReactNode, state: boolean, setting: api.Chat.ChatSettingsField}[] = [
-		{label: "Оповещение о новостях", icon: <Icon20AdvertisingOutline />, state: data.toggleFeed, setting: 'togglefeed'},
-		{label: "Меню при исключении пользователя", icon: <Icon20CancelCircleOutline />,  state: data.kickMenu, setting: 'kickmenu'},
-		{label: "Меню при выходе участника", icon: <Icon20DoorEnterArrowRightOutline />,  state: data.leaveMenu, setting: 'leavemenu'},
-		{label: "Скрытие бывших участников из топа", icon: <Icon20HideOutline />, state: data.hideUsers, setting: 'hideusers'},
+		{label: "Оповещение о новостях", icon: <Icon20AdvertisingOutline />, state: data.togglefeed, setting: 'togglefeed'},
+		{label: "Меню при исключении пользователя", icon: <Icon20CancelCircleOutline />,  state: data.kickmenu, setting: 'kickmenu'},
+		{label: "Меню при выходе участника", icon: <Icon20DoorEnterArrowRightOutline />,  state: data.leavemenu, setting: 'leavemenu'},
+		{label: "Скрытие бывших участников из топа", icon: <Icon20HideOutline />, state: data.hideusers, setting: 'hideusers'},
 		{label: "Замена имени и фамилии участников на ник", icon: <Icon20MasksOutline />, state: data.nameType, setting: 'nameType'},
 		{label: "Оповещение об окончании срока блокировки", icon: <Icon20ClockOutline />, state: data.unPunishNotify, setting: 'unPunishNotify'},
 		{label: "Изменении роли участника при исключении", icon: <Icon20UserSlashOutline />, state: data.unRoleAfterKick, setting: 'unRoleAfterKick'},
